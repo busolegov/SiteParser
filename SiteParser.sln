@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SiteParser", "SiteParser\SiteParser.csproj", "{DB09A92A-9AB6-4DBD-AC4C-36DD3ECD305E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB09A92A-9AB6-4DBD-AC4C-36DD3ECD305E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DB09A92A-9AB6-4DBD-AC4C-36DD3ECD305E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DB09A92A-9AB6-4DBD-AC4C-36DD3ECD305E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DB09A92A-9AB6-4DBD-AC4C-36DD3ECD305E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B3CCAA65-AC1D-437A-9845-233D594BD680}
+	EndGlobalSection
+EndGlobal
