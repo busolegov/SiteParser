@@ -1,25 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SiteParser.Toy
+﻿namespace SiteParser.ToySite
 {
-    public class ToySettings : IParserSettings
+    public class ToySiteSettings : IParserSettings
     {
-        public ToySettings(int start, int end)
+        public ToySiteSettings(int start, int end)
         {
             Start = start;
             End = end;
         }
 
-        public ToySettings(string url)
-        {
-            SingleToyUrl = url;
-        }
-
-        public string SingleToyUrl { get; set; }
+        public string ToyUrl { get; set; }
         public string BaseUrl { get; set; } = "https://www.toy.ru";
         public string Prefix { get; set; } = "catalog/boy_transport/?filterseccode%5B0%5D=transport";
         public string PagePrefix { get; set; } = "&PAGEN_8=";

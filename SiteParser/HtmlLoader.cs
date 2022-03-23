@@ -11,21 +11,21 @@ namespace SiteParser
     public class HtmlLoader
     {
         private readonly HttpClient client;
-        private string url;
-        private string firstPageUrl;
-        private string singleToyUrl;
+        private string _url;
+        private string _firstPageUrl;
+        private string _toyUrl;
 
         public HtmlLoader(IParserSettings settings)
         {
             client = new HttpClient();
-            url = $"{settings.BaseUrl}/{settings.Prefix}{settings.PagePrefix}";
-            firstPageUrl = $"{settings.BaseUrl}/{settings.Prefix}";
-            singleToyUrl = settings.SingleToyUrl;
+            _url = $"{settings.BaseUrl}/{settings.Prefix}{settings.PagePrefix}";
+            _firstPageUrl = $"{settings.BaseUrl}/{settings.Prefix}";
+            _toyUrl = settings.ToyUrl;
         }
 
         public async Task<string> GetPageData()
         {
-            var response = await client.GetAsync(firstPageUrl);
+            var response = await client.GetAsync(_firstPageUrl);
             string data = null;
 
             if (response != null && response.StatusCode == HttpStatusCode.OK)
@@ -38,8 +38,21 @@ namespace SiteParser
 
         public async Task<string> GetPageDataById(int iD)
         {
-            var currentUrl = $"{url}{iD.ToString()}";
+            var currentUrl = $"{_url}{iD.ToString()}";
             var response = await client.GetAsync(currentUrl);
+            string data = null;
+
+            if (response != null && response.StatusCode == HttpStatusCode.OK)
+            {
+                data = await response.Content.ReadAsStringAsync();
+            }
+
+            return data;
+        }
+
+        public async Task<string> GetToyPageData()
+        {
+            var response = await client.GetAsync(_toyUrl);
             string data = null;
 
             if (response != null && response.StatusCode == HttpStatusCode.OK)

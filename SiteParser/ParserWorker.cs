@@ -7,15 +7,14 @@ using AngleSharp.Html.Parser;
 
 namespace SiteParser
 {
-    public class Parser<T> where T : class
+    public class ParserWorker<T> where T : class
     {
         private IParser<T> _parser;
         private IParserSettings _parserSettings;
         private HtmlLoader _htmlLoader;
 
 
-
-        public Parser(IParser<T> parser, IParserSettings parserSettings, HtmlLoader htmlLoader)
+        public ParserWorker(IParser<T> parser, IParserSettings parserSettings, HtmlLoader htmlLoader)
         {
             _parser = parser;
             _parserSettings = parserSettings;
@@ -29,10 +28,10 @@ namespace SiteParser
 
             var doc = await domParser.ParseDocumentAsync(data);
 
-            var result = _parser.Parse(doc);
+            var result = _parser.ParseProcess(doc);
         }
 
-        public async void MoreThenOnePagesParsing()
+        public async void OtherPagesParsing()
         {
             for (int i = _parserSettings.Start; i <= _parserSettings.End; i++)
             {
@@ -41,18 +40,18 @@ namespace SiteParser
 
                 var doc = await domParser.ParseDocumentAsync(data);
 
-                var result = _parser.Parse(doc);
+                var result = _parser.ParseProcess(doc);
             }
         }
 
-        public async void SingleToyPageParsing()
+        public async void ToyPageInfoParsing()
         {
-            var data = await _htmlLoader.GetPageData();
+            var data = await _htmlLoader.GetToyPageData();
             var domParser = new HtmlParser();
 
             var doc = await domParser.ParseDocumentAsync(data);
 
-            var result = _parser.Parse(doc);
+            var result = _parser.ParseProcess(doc);
         }
     }
 }

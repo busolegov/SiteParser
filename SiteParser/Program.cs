@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using AngleSharp;
-using AngleSharp.Dom;
-using AngleSharp.Html.Dom;
-using SiteParser.Toy;
+using SiteParser.ToySite;
 
 namespace SiteParser
 {
@@ -14,28 +9,35 @@ namespace SiteParser
     {
         static void Main(string[] args)
         {
-            var toySettings = new ToySettings(2, 5);
-            var toyParser = new ToyParser();
-            var loader = new HtmlLoader(toySettings);
-
-
-            var toy = new Parser<string[]>(toyParser, toySettings, loader);
-
-            toy.PageParsing();
-            toy.MoreThenOnePagesParsing();
-
-            foreach (var item in toyParser.ToysLinks)
+            var siteParser = new ToySiteParser();
+            var siteSettings = new ToySiteSettings(2, 17);
+            var linkTask = Task.Run(() =>
             {
-                var itemSettings = new ToySettings(item);
-                var itemParser = new ToyParser();
-                var itemloader = new HtmlLoader(itemSettings);
+                var htmlLoader = new HtmlLoader(siteSettings);
 
-                var itemToy = new Parser<string[]>(itemParser, itemSettings, itemloader);
+                var worker = new ParserWorker<List<string>>(siteParser, siteSettings, htmlLoader);
 
-                itemToy.PageParsing();
+                worker.PageParsing();
+                worker.OtherPagesParsing();
+            });
+            linkTask.Wait();
+            foreach (var item in siteParser.ToyLinks)
+            {
+                Console.WriteLine(item);
             }
 
-            toy.
+            var toyInfo = new ToyInfo(siteParser);
+
+            foreach (var link in siteParser.ToyLinks)
+            {
+                var infoTask = Task.Run(() =>
+                {
+                    new Toy(link).GetInfo();
+                });
+            }
+
+            Console.WriteLine();
+
             Console.ReadKey();
 
         }
