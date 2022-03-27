@@ -1,6 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Runtime.CompilerServices;
+using System.Text;
 using System.Threading.Tasks;
+using CsvHelper;
+using SiteParser.SingleToy;
 using SiteParser.ToySite;
 
 namespace SiteParser
@@ -9,36 +15,50 @@ namespace SiteParser
     {
         static void Main(string[] args)
         {
-            var siteParser = new ToySiteParser();
-            var siteSettings = new ToySiteSettings(2, 17);
-            var linkTask = Task.Run(() =>
+            try
             {
+                var siteParser = new ToySiteParser();
+                var siteSettings = new ToySiteSettings(1, 17);
                 var htmlLoader = new HtmlLoader(siteSettings);
-
                 var worker = new ParserWorker<List<string>>(siteParser, siteSettings, htmlLoader);
 
-                worker.PageParsing();
-                worker.OtherPagesParsing();
-            });
-            linkTask.Wait();
-            foreach (var item in siteParser.ToyLinks)
-            {
-                Console.WriteLine(item);
-            }
 
-            var toyInfo = new ToyInfo(siteParser);
+                Console.WriteLine("Parsing start...");
+                var task = worker.PagesParsingAsync();
+                Task.WaitAll(task);
 
-            foreach (var link in siteParser.ToyLinks)
-            {
-                var infoTask = Task.Run(() =>
+                //await worker.PagesParsingAsync();
+
+                Console.WriteLine("Parsing end.");
+                Console.WriteLine();
+
+                using (var textWriter = new StreamWriter(@"D:\toyinfo.csv", false, Encoding.UTF8))
                 {
-                    new Toy(link).GetInfo();
-                });
+                    var writer = new CsvWriter(textWriter, CultureInfo.CurrentCulture, false);
+
+                    foreach (var item in siteParser.toyContainer)
+                    {
+                        writer.WriteField(item.RegionName);
+                        writer.WriteField(item.Breadcrumbs);
+                        writer.WriteField(item.Name);
+                        writer.WriteField(item.Price);
+                        writer.WriteField(item.OldPrice);
+                        writer.WriteField(item.Availability);
+                        writer.WriteField(item.ImageLink);
+                        writer.WriteField(item.ToyLink);
+
+                        writer.NextRecord();
+                    }
+                }
+
+                Console.WriteLine("Csv file is ready.");
             }
+            catch (Exception ex)
+            {
 
-            Console.WriteLine();
-
-            Console.ReadKey();
+                Console.WriteLine(ex.Message);
+                throw;
+            }
 
         }
     }

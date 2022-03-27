@@ -1,9 +1,10 @@
-﻿using AngleSharp.Html.Dom;
+﻿using System.Threading.Tasks;
+using AngleSharp.Html.Dom;
 
 namespace SiteParser
 {
-    public interface IParser<T> where T : class
+    public interface IParser
     {
-        T ParseProcess(IHtmlDocument document);
+        Task ParseProcess(IHtmlDocument document);
     }
 }
