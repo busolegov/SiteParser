@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
+using SiteParser.Abstract;
 
 namespace SiteParser
 {
@@ -12,29 +9,15 @@ namespace SiteParser
     {
         private readonly HttpClient _client;
         private string _url;
-        private string _firstPageUrl;
         private string _toyUrl;
 
         public HtmlLoader(IParserSettings settings)
         {
             _client = new HttpClient();
             _url = $"{settings.BaseUrl}/{settings.Prefix}{settings.PagePrefix}";
-            _firstPageUrl = $"{settings.BaseUrl}/{settings.Prefix}";
             _toyUrl = settings.ToyUrl;
         }
 
-        public async Task<string> GetPageDataAsync()
-        {
-            var response = await _client.GetAsync(_firstPageUrl);
-            string data = null;
-
-            if (response != null && response.StatusCode == HttpStatusCode.OK)
-            {
-                data = await response.Content.ReadAsStringAsync();
-            }
-
-            return data;
-        }
 
         public async Task<string> GetPageDataByIdAsync(int iD)
         {
@@ -49,6 +32,7 @@ namespace SiteParser
 
             return data;
         }
+
 
         public async Task<string> GetToyPageDataAsync()
         {

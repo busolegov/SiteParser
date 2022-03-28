@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using AngleSharp.Html.Dom;
 
-namespace SiteParser
+namespace SiteParser.Abstract
 {
     public interface IParser
     {

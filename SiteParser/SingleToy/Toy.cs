@@ -1,22 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
-using CsvHelper;
-using SiteParser.SingleToy;
+﻿using System.Text;
 
 
-namespace SiteParser.ToySite
+namespace SiteParser.SingleToy
 {
     public class Toy
     {
         public string RegionName { get; set; }
-        //public List<string> Breadcrumbs { get; set; } = new List<string>();
         public StringBuilder Breadcrumbs { get; set; }
+        public StringBuilder ImageLinks { get; set; }
         public string Name { get; set; }
         public string Price { get; set; }
         public string OldPrice { get; set; }

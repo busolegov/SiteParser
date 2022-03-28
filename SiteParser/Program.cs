@@ -22,12 +22,9 @@ namespace SiteParser
                 var htmlLoader = new HtmlLoader(siteSettings);
                 var worker = new ParserWorker<List<string>>(siteParser, siteSettings, htmlLoader);
 
-
                 Console.WriteLine("Parsing start...");
                 var task = worker.PagesParsingAsync();
                 Task.WaitAll(task);
-
-                //await worker.PagesParsingAsync();
 
                 Console.WriteLine("Parsing end.");
                 Console.WriteLine();
@@ -35,6 +32,18 @@ namespace SiteParser
                 using (var textWriter = new StreamWriter(@"D:\toyinfo.csv", false, Encoding.UTF8))
                 {
                     var writer = new CsvWriter(textWriter, CultureInfo.CurrentCulture, false);
+
+                    writer.WriteField("RegionName");
+                    writer.WriteField("Breadcrumbs");
+                    writer.WriteField("Name");
+                    writer.WriteField("Price");
+                    writer.WriteField("OldPrice");
+                    writer.WriteField("Availability");
+                    writer.WriteField("ImageLink");
+                    writer.WriteField("ImageLinks");
+                    writer.WriteField("ToyLink");
+
+                    writer.NextRecord();
 
                     foreach (var item in siteParser.toyContainer)
                     {
@@ -45,6 +54,7 @@ namespace SiteParser
                         writer.WriteField(item.OldPrice);
                         writer.WriteField(item.Availability);
                         writer.WriteField(item.ImageLink);
+                        writer.WriteField(item.ImageLinks);
                         writer.WriteField(item.ToyLink);
 
                         writer.NextRecord();
@@ -59,7 +69,6 @@ namespace SiteParser
                 Console.WriteLine(ex.Message);
                 throw;
             }
-
         }
     }
 }

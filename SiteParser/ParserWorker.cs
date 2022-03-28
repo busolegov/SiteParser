@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using AngleSharp;
 using AngleSharp.Html.Parser;
-using SiteParser.ToySite;
+using SiteParser.Abstract;
+using SiteParser.SingleToy;
+
 
 namespace SiteParser
 {
@@ -14,6 +14,7 @@ namespace SiteParser
         private IParser _parser;
         private IParserSettings _parserSettings;
         private HtmlLoader _htmlLoader;
+        private ToyParser _toyParser;
 
 
         public ParserWorker(IParser parser, IParserSettings parserSettings, HtmlLoader htmlLoader)
@@ -23,15 +24,13 @@ namespace SiteParser
             _htmlLoader = htmlLoader;
         }
 
-        public async Task PageParsingAsync()
+        public ParserWorker(ToyParser parser, IParserSettings parserSettings, HtmlLoader htmlLoader)
         {
-            var data = await _htmlLoader.GetPageDataAsync();
-            var domParser = new HtmlParser();
-            var doc = await domParser.ParseDocumentAsync(data);
-
-            _parser.ParseProcess(doc);
-
+            _toyParser = parser;
+            _parserSettings = parserSettings;
+            _htmlLoader = htmlLoader;
         }
+
 
         public async Task PagesParsingAsync()
         {
@@ -39,25 +38,18 @@ namespace SiteParser
             {
                 var data = await _htmlLoader.GetPageDataByIdAsync(i);
                 var domParser = new HtmlParser();
-
                 var doc = await domParser.ParseDocumentAsync(data);
-                await Task.Run(() => _parser.ParseProcess(doc));
-
-                //_parser.ParseProcess(doc);
+                await _parser.ParseProcess(doc);
             }
-
         }
+
 
         public async Task ToyPageInfoParsingAsync()
         {
             var data = await _htmlLoader.GetToyPageDataAsync();
             var domParser = new HtmlParser();
-
             var doc = await domParser.ParseDocumentAsync(data);
-
-            await _parser.ParseProcess(doc);
-            
-            //_parser.ParseProcess(doc);
+            _toyParser.ParseProcess(doc);
         }
     }
 }

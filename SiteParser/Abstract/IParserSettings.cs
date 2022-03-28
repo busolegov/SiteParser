@@ -1,4 +1,4 @@
-﻿namespace SiteParser
+﻿namespace SiteParser.Abstract
 {
     public interface IParserSettings
     {

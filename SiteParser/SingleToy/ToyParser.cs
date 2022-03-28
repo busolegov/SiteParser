@@ -1,34 +1,37 @@
 ﻿using AngleSharp.Html.Dom;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
-namespace SiteParser.ToySite
+
+namespace SiteParser.SingleToy
 {
-    public class ToyParser : IParser
+    public class ToyParser
     {
         public string RegionName { get; set; }
-        //public List<string> Breadcrumbs { get; set; } = new List<string>();
         public StringBuilder Breadcrumbs { get; set; } = new StringBuilder();
         public string Name { get; set; }
         public string Price { get; set; }
         public string OldPrice { get; set; }
         public string Availability { get; set; }
+        public StringBuilder ImageLinks { get; set; } = new StringBuilder();
         public string ImageLink { get; set; }
 
 
-        public async Task ParseProcess(IHtmlDocument document)
+        public void ParseProcess(IHtmlDocument document)
         {
-            await Task.Delay(0);
+
             //наименование
             Name = document.QuerySelector("h1[itemprop=\"name\"]").GetAttribute("content") ?? "no name";
 
             //ссылка картинки
-            ImageLink = document.QuerySelector("img[src*=\".jpg\"]").GetAttribute("src") ?? "no imagelink";
+            ImageLink = document.QuerySelector("img.img-fluid").GetAttribute("src");
+
+            var image = document.QuerySelectorAll("img.img-fluid[src*=\"?_cvc\"]");
+            foreach (var item in image)
+            {
+                ImageLinks.Append(item.GetAttribute("src"));
+                ImageLinks.Append(", ");
+            }
 
             //регион
             var region = document.QuerySelector("[data-src=\"#region\"]");
@@ -39,25 +42,36 @@ namespace SiteParser.ToySite
                        
             //хлебные крошки
             var bread = document.QuerySelectorAll("nav.breadcrumb a[href]");
-            //foreach (var item in bread)
-            //{
-            //    Breadcrumbs.Add(item.TextContent);
-            //}
-
             foreach (var item in bread)
             {
-                Breadcrumbs.Append(item);
+                Breadcrumbs.Append(item.GetAttribute("title"));
                 Breadcrumbs.Append("/ ");
             }
 
             //цена
-            Price = document.QuerySelector("span.price").TextContent ?? "no price";
+            Price = document.QuerySelector("span.price").TextContent;
 
             //старая цена
-            OldPrice = document.QuerySelector("span.old-price").TextContent ?? "no old price";
+            var oldPrice = document.QuerySelector("span.old-price");
+            if (oldPrice == null)
+            {
+                OldPrice = "no old price";
+            }
+            else
+            {
+                OldPrice = oldPrice.TextContent;
+            }
 
             //наличие
-            Availability = document.QuerySelector("span.ok").TextContent ?? "not available";
+            var availability = document.QuerySelector("span.ok");
+            if (availability == null)
+            {
+                Availability = "not available";
+            }
+            else
+            {
+                Availability = availability.TextContent;
+            }
         }
     }
 }
