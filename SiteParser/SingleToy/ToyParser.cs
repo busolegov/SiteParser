@@ -23,7 +23,7 @@ namespace SiteParser.SingleToy
             //наименование
             Name = document.QuerySelector("h1[itemprop=\"name\"]").GetAttribute("content") ?? "no name";
 
-            //ссылки картинки
+            //ссылки на картинки
             var image = document.QuerySelectorAll("img.img-fluid[src*=\"g?_cvc\"]");
             foreach (var item in image)
             {

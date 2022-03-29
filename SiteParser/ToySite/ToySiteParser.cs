@@ -14,14 +14,12 @@ namespace SiteParser.ToySite
 
         public async Task ParseProcessAsync(IHtmlDocument document)
         {
-
             var items = document.QuerySelectorAll("meta[itemprop=\"url\"]");
 
             List<Task> tasks = new List<Task>();
 
             foreach (var element in items)
             {
-                
                 Toy toy = new Toy();
 
                 var link = element.GetAttribute("content");
@@ -41,36 +39,34 @@ namespace SiteParser.ToySite
         {
             await worker.ToyPageInfoParsingAsync();
 
-            Console.WriteLine("****************** new toy *******************");
+            Console.WriteLine($"****** parsed new toy # {(toyContainer.Count)+1} ******");
 
             toy.ToyLink = link;
-            Console.WriteLine(toy.ToyLink);
+            Console.WriteLine($"ToyLink: {toy.ToyLink}");
 
             toy.Breadcrumbs = toyParser.Breadcrumbs;
-            Console.WriteLine(toy.Breadcrumbs);
+            Console.WriteLine($"Breadcrumbs: {toy.Breadcrumbs}");
 
             toy.ImageLinks = toyParser.ImageLinks;
-            Console.WriteLine(toy.ImageLinks);
+            Console.WriteLine($"ImageLinks: {toy.ImageLinks}");
 
             toy.RegionName = toyParser.RegionName;
-            Console.WriteLine(toy.RegionName);
+            Console.WriteLine($"RegionName: {toy.RegionName}");
 
             toy.Name = toyParser.Name;
-            Console.WriteLine(toy.Name);
+            Console.WriteLine($"Name: {toy.Name}");
 
             toy.Price = toyParser.Price;
-            Console.WriteLine(toy.Price);
+            Console.WriteLine($"Price: {toy.Price}");
 
             toy.OldPrice = toyParser.OldPrice;
-            Console.WriteLine(toy.OldPrice);
+            Console.WriteLine($"OldPrice: {toy.OldPrice}");
 
             toy.Availability = toyParser.Availability;
-            Console.WriteLine(toy.Availability);
+            Console.WriteLine($"Availability: {toy.Availability}");
 
             toyContainer.Add(toy);
-            Console.WriteLine(toyContainer.Count);
             Console.WriteLine();
         }
     }
-
 }

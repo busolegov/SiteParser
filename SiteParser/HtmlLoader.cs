@@ -26,7 +26,7 @@ namespace SiteParser
 
         public async Task<string> GetPageDataByIdAsync(int iD)
         {
-            var currentUrl = $"{_url}{iD.ToString()}";
+            var currentUrl = $"{_url}{iD}";
             var response = await _client.GetAsync(currentUrl);
             string data = null;
 

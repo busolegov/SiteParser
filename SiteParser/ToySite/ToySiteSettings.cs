@@ -1,5 +1,6 @@
 ﻿using SiteParser.Abstract;
 
+
 namespace SiteParser.ToySite
 {
     public class ToySiteSettings : IParserSettings

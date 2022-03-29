@@ -1,6 +1,4 @@
-﻿
-
-namespace SiteParser.Abstract
+﻿namespace SiteParser.Abstract
 {
     public interface IToyParserSettings
     {

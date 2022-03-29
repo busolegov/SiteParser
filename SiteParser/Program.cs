@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using CsvHelper;
-using SiteParser.SingleToy;
 using SiteParser.ToySite;
+
 
 namespace SiteParser
 {
@@ -64,8 +63,7 @@ namespace SiteParser
             catch (Exception ex)
             {
 
-                Console.WriteLine(ex.Message);
-                throw;
+                throw new Exception(ex.Message);
             }
         }
     }

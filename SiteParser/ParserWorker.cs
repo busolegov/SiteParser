@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AngleSharp.Html.Parser;
 using SiteParser.Abstract;
-using SiteParser.SingleToy;
 
 
 namespace SiteParser
@@ -15,7 +11,6 @@ namespace SiteParser
         private IParserSettings _parserSettings;
         private IToyParser _toyParser;
         private HtmlLoader _htmlLoader;
-
 
         public ParserWorker(IParser parser, IParserSettings parserSettings, HtmlLoader htmlLoader)
         {
@@ -30,7 +25,6 @@ namespace SiteParser
             _htmlLoader = htmlLoader;
         }
 
-
         public async Task PagesParsingAsync()
         {
             for (int i = _parserSettings.Start; i <= _parserSettings.End; i++)
@@ -41,7 +35,6 @@ namespace SiteParser
                 await _parser.ParseProcessAsync(doc);
             }
         }
-
 
         public async Task ToyPageInfoParsingAsync()
         {
