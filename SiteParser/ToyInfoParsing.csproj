@@ -74,6 +74,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IToyParser.cs" />
+    <Compile Include="Abstract\IToyParserSettings.cs" />
     <Compile Include="HtmlLoader.cs" />
     <Compile Include="Abstract\IParser.cs" />
     <Compile Include="Abstract\IParserSettings.cs" />

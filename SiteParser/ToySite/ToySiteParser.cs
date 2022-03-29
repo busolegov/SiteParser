@@ -12,7 +12,7 @@ namespace SiteParser.ToySite
     {
         public List<Toy> toyContainer = new List<Toy>();
 
-        public async Task ParseProcess(IHtmlDocument document)
+        public async Task ParseProcessAsync(IHtmlDocument document)
         {
 
             var items = document.QuerySelectorAll("meta[itemprop=\"url\"]");
@@ -29,26 +29,22 @@ namespace SiteParser.ToySite
                 var toyParser = new ToyParser();
                 var toySettings = new ToySettings(link);
                 var toyHtmlLoader = new HtmlLoader(toySettings);
-                var worker = new ParserWorker<string>(toyParser, toySettings, toyHtmlLoader);
+                var worker = new ParserWorker<string>(toyParser, toyHtmlLoader);
 
-                tasks.Add(AddInfo(worker, toy, toyParser, link));
+                tasks.Add(FieldsParsingAsync(worker, toy, toyParser, link));
             }
 
             await Task.WhenAll(tasks);
         }
 
-        public async Task AddInfo(ParserWorker<string> worker, Toy toy, ToyParser toyParser, string link)
+        public async Task FieldsParsingAsync(ParserWorker<string> worker, Toy toy, ToyParser toyParser, string link)
         {
             await worker.ToyPageInfoParsingAsync();
 
-
             Console.WriteLine("****************** new toy *******************");
 
-            //toy.ImageLink = toyParser.ImageLink;
-            //Console.WriteLine(toy.ImageLink);
-
-            //toy.ToyLink = link;
-            //Console.WriteLine(toy.ToyLink);
+            toy.ToyLink = link;
+            Console.WriteLine(toy.ToyLink);
 
             toy.Breadcrumbs = toyParser.Breadcrumbs;
             Console.WriteLine(toy.Breadcrumbs);

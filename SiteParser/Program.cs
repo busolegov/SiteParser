@@ -39,7 +39,6 @@ namespace SiteParser
                     writer.WriteField("Price");
                     writer.WriteField("OldPrice");
                     writer.WriteField("Availability");
-                    writer.WriteField("ImageLink");
                     writer.WriteField("ImageLinks");
                     writer.WriteField("ToyLink");
 
@@ -53,7 +52,6 @@ namespace SiteParser
                         writer.WriteField(item.Price);
                         writer.WriteField(item.OldPrice);
                         writer.WriteField(item.Availability);
-                        writer.WriteField(item.ImageLink);
                         writer.WriteField(item.ImageLinks);
                         writer.WriteField(item.ToyLink);
 

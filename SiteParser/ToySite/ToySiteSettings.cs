@@ -10,7 +10,6 @@ namespace SiteParser.ToySite
             End = end;
         }
 
-        public string ToyUrl { get; set; }
         public string BaseUrl { get; set; } = "https://www.toy.ru";
         public string Prefix { get; set; } = "catalog/boy_transport/?filterseccode%5B0%5D=transport";
         public string PagePrefix { get; set; } = "&PAGEN_8=";

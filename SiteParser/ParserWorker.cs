@@ -13,8 +13,8 @@ namespace SiteParser
     {
         private IParser _parser;
         private IParserSettings _parserSettings;
+        private IToyParser _toyParser;
         private HtmlLoader _htmlLoader;
-        private ToyParser _toyParser;
 
 
         public ParserWorker(IParser parser, IParserSettings parserSettings, HtmlLoader htmlLoader)
@@ -24,10 +24,9 @@ namespace SiteParser
             _htmlLoader = htmlLoader;
         }
 
-        public ParserWorker(ToyParser parser, IParserSettings parserSettings, HtmlLoader htmlLoader)
+        public ParserWorker(IToyParser parser, HtmlLoader htmlLoader)
         {
             _toyParser = parser;
-            _parserSettings = parserSettings;
             _htmlLoader = htmlLoader;
         }
 
@@ -39,7 +38,7 @@ namespace SiteParser
                 var data = await _htmlLoader.GetPageDataByIdAsync(i);
                 var domParser = new HtmlParser();
                 var doc = await domParser.ParseDocumentAsync(data);
-                await _parser.ParseProcess(doc);
+                await _parser.ParseProcessAsync(doc);
             }
         }
 

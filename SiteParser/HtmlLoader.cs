@@ -15,6 +15,11 @@ namespace SiteParser
         {
             _client = new HttpClient();
             _url = $"{settings.BaseUrl}/{settings.Prefix}{settings.PagePrefix}";
+        }
+
+        public HtmlLoader(IToyParserSettings settings)
+        {
+            _client = new HttpClient();
             _toyUrl = settings.ToyUrl;
         }
 

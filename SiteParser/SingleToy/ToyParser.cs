@@ -1,11 +1,12 @@
 ﻿using AngleSharp.Html.Dom;
+using SiteParser.Abstract;
 using System.Text;
 using System.Text.RegularExpressions;
 
 
 namespace SiteParser.SingleToy
 {
-    public class ToyParser
+    public class ToyParser : IToyParser
     {
         public string RegionName { get; set; }
         public StringBuilder Breadcrumbs { get; set; } = new StringBuilder();
@@ -14,7 +15,6 @@ namespace SiteParser.SingleToy
         public string OldPrice { get; set; }
         public string Availability { get; set; }
         public StringBuilder ImageLinks { get; set; } = new StringBuilder();
-        public string ImageLink { get; set; }
 
 
         public void ParseProcess(IHtmlDocument document)
@@ -23,10 +23,8 @@ namespace SiteParser.SingleToy
             //наименование
             Name = document.QuerySelector("h1[itemprop=\"name\"]").GetAttribute("content") ?? "no name";
 
-            //ссылка картинки
-            ImageLink = document.QuerySelector("img.img-fluid").GetAttribute("src");
-
-            var image = document.QuerySelectorAll("img.img-fluid[src*=\"?_cvc\"]");
+            //ссылки картинки
+            var image = document.QuerySelectorAll("img.img-fluid[src*=\"g?_cvc\"]");
             foreach (var item in image)
             {
                 ImageLinks.Append(item.GetAttribute("src"));
